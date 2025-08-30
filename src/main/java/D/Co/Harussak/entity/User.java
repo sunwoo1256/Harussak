@@ -26,6 +26,7 @@ public class User {
     private LocalDateTime joinedAt;
     private Long seeds;
 
+    @ElementCollection
     @Enumerated(EnumType.STRING)
     private List<Role> roles = new ArrayList<>();
 
