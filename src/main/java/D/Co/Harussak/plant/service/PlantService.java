@@ -1,8 +1,8 @@
-package D.Co.Harussak.service;
+package D.Co.Harussak.plant.service;
 
-import D.Co.Harussak.dto.PlantDto;
+import D.Co.Harussak.plant.dto.PlantDto;
 import D.Co.Harussak.entity.Plant;
-import D.Co.Harussak.repository.PlantRepository;
+import D.Co.Harussak.plant.repository.PlantRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

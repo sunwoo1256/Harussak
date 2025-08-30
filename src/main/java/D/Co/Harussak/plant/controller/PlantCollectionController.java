@@ -1,8 +1,8 @@
-package D.Co.Harussak.controller;
+package D.Co.Harussak.plant.controller;
 
-import D.Co.Harussak.dto.PlantCollectionDto;
-import D.Co.Harussak.dto.PlantDto;
-import D.Co.Harussak.service.PlantService;
+import D.Co.Harussak.plant.dto.PlantCollectionDto;
+import D.Co.Harussak.plant.dto.PlantDto;
+import D.Co.Harussak.plant.service.PlantService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
