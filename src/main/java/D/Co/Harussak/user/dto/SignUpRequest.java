@@ -13,11 +13,7 @@ public class SignUpRequest {
     String password;
 
     public User toUser(String encodedPassword) {
-        return User.builder()
-            .email(email)
-            .password(encodedPassword)
-            .roles(List.of(User.Role.ROLE_USER))
-            .build();
+        return new User(email, encodedPassword, List.of(User.Role.USER));
     }
 }
 
