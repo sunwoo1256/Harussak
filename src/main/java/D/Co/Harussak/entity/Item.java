@@ -1,7 +1,9 @@
 package D.Co.Harussak.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 @Table(name = "Item")
 public class Item {
