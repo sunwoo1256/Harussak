@@ -1,6 +1,6 @@
-package D.Co.Harussak.service;
+package D.Co.Harussak.item.service;
 
-import D.Co.Harussak.dto.ItemCategoryDto;
+import D.Co.Harussak.item.dto.ItemCategoryDto;
 import D.Co.Harussak.entity.Item;
 import org.springframework.stereotype.Service;
 import jakarta.persistence.EntityManager;

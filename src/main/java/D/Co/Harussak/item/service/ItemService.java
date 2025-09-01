@@ -1,6 +1,6 @@
-package D.Co.Harussak.service;
+package D.Co.Harussak.item.service;
 
-import D.Co.Harussak.dto.ItemDto;
+import D.Co.Harussak.item.dto.ItemDto;
 import D.Co.Harussak.entity.Item;
 import jakarta.persistence.EntityManager;
 import java.util.List;

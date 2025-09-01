@@ -1,6 +1,6 @@
-package D.Co.Harussak.service;
+package D.Co.Harussak.plant.service;
 
-import D.Co.Harussak.dto.PlantRoutineDto;
+import D.Co.Harussak.plant.dto.PlantRoutineDto;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

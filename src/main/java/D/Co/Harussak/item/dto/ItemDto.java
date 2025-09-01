@@ -1,4 +1,4 @@
-package D.Co.Harussak.dto;
+package D.Co.Harussak.item.dto;
 import lombok.Data;
 @Data
 public class ItemDto {

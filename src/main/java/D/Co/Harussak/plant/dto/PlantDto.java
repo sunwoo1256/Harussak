@@ -1,4 +1,4 @@
-package D.Co.Harussak.dto;
+package D.Co.Harussak.plant.dto;
 
 import lombok.Data;
 

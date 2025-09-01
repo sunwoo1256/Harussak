@@ -1,8 +1,8 @@
-package D.Co.Harussak.controller;
+package D.Co.Harussak.plant.controller;
 
-import D.Co.Harussak.dto.PlantDto;
-import D.Co.Harussak.dto.PlantDetailDto;
-import D.Co.Harussak.service.PlantDetailService;
+import D.Co.Harussak.plant.dto.PlantDto;
+import D.Co.Harussak.plant.dto.PlantDetailDto;
+import D.Co.Harussak.plant.service.PlantDetailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

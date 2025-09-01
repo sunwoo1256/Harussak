@@ -1,9 +1,9 @@
-package D.Co.Harussak.service;
+package D.Co.Harussak.plant.service;
 
-import D.Co.Harussak.dto.PlantDto;
-import D.Co.Harussak.dto.PlantDetailDto;
+import D.Co.Harussak.plant.dto.PlantDto;
+import D.Co.Harussak.plant.dto.PlantDetailDto;
 import D.Co.Harussak.entity.Plant;
-import D.Co.Harussak.repository.PlantRepository;
+import D.Co.Harussak.plant.repository.PlantRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

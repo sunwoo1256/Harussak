@@ -1,7 +1,7 @@
-package D.Co.Harussak.controller;
+package D.Co.Harussak.plant.controller;
 
-import D.Co.Harussak.dto.PlantRoutineDto;
-import D.Co.Harussak.service.PlantRoutineService;
+import D.Co.Harussak.plant.dto.PlantRoutineDto;
+import D.Co.Harussak.plant.service.PlantRoutineService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

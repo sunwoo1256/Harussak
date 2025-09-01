@@ -1,7 +1,7 @@
-package D.Co.Harussak.controller;
+package D.Co.Harussak.item.controller;
 
-import D.Co.Harussak.dto.ItemDto;
-import D.Co.Harussak.service.ItemService;
+import D.Co.Harussak.item.dto.ItemDto;
+import D.Co.Harussak.item.service.ItemService;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
