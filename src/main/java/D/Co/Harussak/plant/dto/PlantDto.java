@@ -12,5 +12,5 @@ public class PlantDto {
         this.plantId = plantId;
         this.name = name;
     }
-    // Getter, Setter 생략 (Lombok 사용 가능)
+
 }
