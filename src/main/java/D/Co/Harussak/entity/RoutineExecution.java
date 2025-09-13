@@ -7,6 +7,7 @@ import jakarta.persistence.*;
 @Table(name = "RoutineExecution")
 public class RoutineExecution {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)

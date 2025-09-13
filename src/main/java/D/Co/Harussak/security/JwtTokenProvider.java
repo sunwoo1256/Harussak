@@ -1,5 +1,6 @@
 package D.Co.Harussak.security;
 
+import D.Co.Harussak.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.Jwts;
@@ -20,7 +21,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
@@ -32,7 +32,7 @@ public class JwtTokenProvider {
     private Key key;
 
     @Value("${jwt.secret}")
-    String secret;
+    private String secret;
 
     @Value("${jwt.access-expiration-time}")
     private long accessTokenExpirationTime;
@@ -46,6 +46,8 @@ public class JwtTokenProvider {
     public void init() {
         byte[] keyBytes = Decoders.BASE64.decode(secret);    // secretKey (Base64로 인코딩된 문자열)를 디코딩하여 byte 배열로 변환
         key = Keys.hmacShaKeyFor(keyBytes);    // 디코딩된 byte 배열을 사용하여 HMAC-SHA 알고리즘에 맞는 암호화 키 생성
+        log.info("JWT Key initialized, length: {}", keyBytes.length);
+
     }
 
     //Access Token 생성하기
@@ -53,9 +55,14 @@ public class JwtTokenProvider {
         Date now = new Date();
         Date accessTokenExpiresIn = new Date(now.getTime() + accessTokenExpirationTime); // 1시간
 
+        // 권한 끝 공백 제거
+        String cleanedAuthorities = Arrays.stream(authorities.split(","))
+            .map(String::trim)
+            .collect(Collectors.joining(","));
+
         return Jwts.builder()     // JWT 토큰을 생성하는 빌더 패턴
             .setSubject(name)   // 토큰의 subject를 인증된 사용자 이름으로 설정
-            .claim("auth", authorities)     // auth 라는 키로 사용자의 권한 정보 저장
+            .claim("auth", cleanedAuthorities)     // auth 라는 키로 사용자의 권한 정보 저장
             .setExpiration(accessTokenExpiresIn)    // 만료시간 설정(1시간)
             .signWith(key, SignatureAlgorithm.HS256)    // HS256 알고리즘을 이용해 서명
             .compact();     //토큰을 하나의 문자열로 생성
@@ -98,7 +105,9 @@ public class JwtTokenProvider {
                 .map(SimpleGrantedAuthority::new)   // 각 권한 문자열을 SimpleGrantedAuthority 객체로 변환
                 .collect(Collectors.toList());  // 변환된 권한들을 List로 수집하여 authorities에 저장
 
-        UserDetails principal = new User(claims.getSubject(), "",authorities);
+        User user = new User();
+        user.setEmail(claims.getSubject());
+        CustomUserDetails principal = new CustomUserDetails(user);
 
         // principal은 사용자 정보, authorities는 사용자의 권한 정보를 포함
         return new UsernamePasswordAuthenticationToken(principal, "", authorities); // 인증 객체 반환
@@ -111,6 +120,7 @@ public class JwtTokenProvider {
                 .setSigningKey(key)     //Jwt 서명 검증에 사용할 키 설정
                 .build()
                 .parseClaimsJws(token); // 토큰을 파싱하고 유효성 검증(서명, 구조, 만료 등 포함)
+            log.info("Token validated successfully");
             return true; // 예외가 발생하지 않으면 유효한 토큰
 
         }catch(SecurityException | MalformedJwtException exception){    // 서명오류 또는 구조상 잘못된 토큰

@@ -1,6 +1,7 @@
 package D.Co.Harussak.plant.dto;
 
 import D.Co.Harussak.entity.Routine;
+import D.Co.Harussak.entity.RoutineRepeatDay;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -15,7 +16,7 @@ public class PlantRoutineDto {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private Routine.RepeatCycle repeatCycle;
-    private Routine.RepeatDay repeatDay;
+    private RoutineRepeatDay.RepeatDay repeatDay;
     private String seed;
     private String emotion;
 

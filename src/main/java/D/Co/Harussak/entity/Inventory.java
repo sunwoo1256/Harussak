@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 @Table(name = "Inventory")
 public class Inventory {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
