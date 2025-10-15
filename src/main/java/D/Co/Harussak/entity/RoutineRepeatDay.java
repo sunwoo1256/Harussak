@@ -30,7 +30,13 @@ public class RoutineRepeatDay {
     private RepeatDay day;
 
     public enum RepeatDay {
-        월, 화, 수, 목, 금, 토, 일
+        MONDAY,
+        TUESDAY,
+        WEDNESDAY,
+        THURSDAY,
+        FRIDAY,
+        SATURDAY,
+        SUNDAY
     }
 }
 
