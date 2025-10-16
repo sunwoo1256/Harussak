@@ -37,3 +37,6 @@ out/
 .vscode/
 
 application.yml
+application-build.yml
+Dockerfile
+docker-compose.yml

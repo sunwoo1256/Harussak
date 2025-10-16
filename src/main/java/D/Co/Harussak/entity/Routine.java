@@ -1,15 +1,22 @@
 package D.Co.Harussak.entity;
 
 import jakarta.persistence.*;
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.util.HashSet;
+import java.util.Set;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
+@NoArgsConstructor
 @Table(name = "Routine")
 public class Routine {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -17,21 +24,21 @@ public class Routine {
     private User user;
 
     private String title;
-    private java.time.LocalDateTime startDate;
-    private java.time.LocalDateTime endDate;
+    private java.time.LocalDate startDate;
+    private java.time.LocalDate endDate;
 
-    @Enumerated(EnumType.STRING)
-    private RepeatCycle repeatCycle;
+    @OneToMany(mappedBy = "routine", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<RoutineRepeatDay> repeatDays = new HashSet<>();
 
-    @Enumerated(EnumType.STRING)
-    private RepeatDay repeatDay;
+    public Routine(User user, String title, LocalDate startDate, LocalDate endDate) {
+        this.user = user;
+        this.title = title;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
 
     public enum RepeatCycle {
         매일, 매주, 격주
-    }
-
-    public enum RepeatDay {
-        월, 화, 수, 목, 금, 토, 일
     }
 }
 
