@@ -15,4 +15,7 @@ public class RoutineCreateRequest {
     private LocalDate startDate;
     private LocalDate endDate; // "2025-09-30"
     private Set<RoutineRepeatDay.RepeatDay> repeatDays;
+    private Long plantId;
+    private String emoji;
+    private String userMood;
 }

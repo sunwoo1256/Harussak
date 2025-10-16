@@ -1,9 +1,13 @@
 package D.Co.Harussak.routine.service;
 
+import D.Co.Harussak.cultivation.repository.CultivationRepository;
+import D.Co.Harussak.entity.Cultivation;
+import D.Co.Harussak.entity.Plant;
 import D.Co.Harussak.entity.Routine;
 import D.Co.Harussak.entity.RoutineLog;
 import D.Co.Harussak.entity.RoutineRepeatDay;
 import D.Co.Harussak.entity.User;
+import D.Co.Harussak.plant.repository.PlantRepository;
 import D.Co.Harussak.routine.dto.RoutineCreateRequest;
 import D.Co.Harussak.routine.dto.RoutineDto;
 import D.Co.Harussak.routine.dto.RoutineResponse;
@@ -27,6 +31,8 @@ public class RoutineService {
     private final RoutineLogRepository routineLogRepository;
     private final RoutineRepeatDayRepository routineRepeatDayRepository;
     private final UserRepository userRepository;
+    private final PlantRepository plantRepository;
+    private final CultivationRepository cultivationRepository;
 
     public RoutineResponse createRoutine(String username, RoutineCreateRequest dto) {
         User user = userRepository.findByEmail(username)
@@ -59,8 +65,13 @@ public class RoutineService {
             }
             date = date.plusDays(1);
         }
+        Plant plant = plantRepository.findById(dto.getPlantId())
+            .orElseThrow(() -> new IllegalArgumentException("Plant not found with id: " + dto.getPlantId()));
 
-        return new RoutineResponse(routine.getId(), routine.getTitle(), routine.getStartDate(), routine.getEndDate(), dto.getRepeatDays());
+        Cultivation cultivation = new Cultivation(user, plant, routine, dto.getUserMood(), dto.getEmoji());
+        cultivationRepository.save(cultivation);
+
+        return new RoutineResponse(routine.getId(), routine.getTitle(), routine.getStartDate(), routine.getEndDate(), dto.getRepeatDays(), plant.getBreed());
     }
 
     public List<RoutineDto> getRoutinesByDate(String username, LocalDate date) {
