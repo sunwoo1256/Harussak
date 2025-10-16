@@ -34,9 +34,8 @@ public class ItemCategoryService {
     private String categoryToKorean(Item.Category category) {
         if (category == null) return "";
         switch (category) {
-            case 테라리움: return "화분";
             case 장식: return "장식";
-            case 업그레이드: return "식물";
+            case 하늘: return "하늘";
             default: return category.name();
         }
     }
