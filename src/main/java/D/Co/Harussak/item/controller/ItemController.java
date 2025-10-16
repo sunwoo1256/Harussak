@@ -1,12 +1,13 @@
 package D.Co.Harussak.item.controller;
 
 import D.Co.Harussak.item.dto.ItemDto;
+import D.Co.Harussak.item.dto.PurchaseRequestDto; // DTO 임포트
 import D.Co.Harussak.item.service.ItemService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import org.springframework.http.ResponseEntity; // ResponseEntity 임포트
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,7 +30,8 @@ public class ItemController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     @GetMapping("/shop")
-    public ResponseEntity<List<ItemDto>> getShopItems() {
+    // userId의 타입을 Long으로 통일했습니다. (현재 메서드 내에서 사용되진 않지만 일관성을 위해)
+    public ResponseEntity<List<ItemDto>> getShopItems(@PathVariable Long userId) {
         try {
             List<ItemDto> shopItems = itemService.getAllShopItems();
             return ResponseEntity.ok(shopItems);
@@ -47,11 +49,12 @@ public class ItemController {
     @PutMapping
     public ResponseEntity<Map<String, String>> purchaseItems(
             @PathVariable Long userId,
-            @RequestBody Map<String, List<ItemDto>> items
+            @RequestBody PurchaseRequestDto purchaseRequest // Map 대신 DTO를 사용
     ) {
         try {
-            List<ItemDto> itemDtos = items.get("items");
-            itemService.purchaseItems(userId, itemDtos);
+            // DTO에서 직접 아이템 리스트를 가져옵니다.
+            itemService.purchaseItems(userId, purchaseRequest.getItems());
+
             // 성공 시 200 OK 상태와 함께 성공 메시지를 담은 Map을 반환합니다.
             return ResponseEntity.ok(Map.of("result", "success"));
         } catch (IllegalArgumentException e) {
