@@ -48,6 +48,9 @@ dependencies {
 
     // ✅ Gemini API를 사용하기 위한 Google Cloud 공식 라이브러리 추가
     implementation 'com.google.cloud:google-cloud-vertexai'
+
+    // Swagger
+    implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.5.0'
 }
 
 tasks.named('test') {

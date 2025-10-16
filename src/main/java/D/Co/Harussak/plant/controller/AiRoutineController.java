@@ -5,6 +5,10 @@ import D.Co.Harussak.plant.dto.FlowerInfo;
 import D.Co.Harussak.plant.dto.RoutineResponse;
 import D.Co.Harussak.plant.repository.PlantRepository;
 import D.Co.Harussak.plant.service.AiRoutineService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Tag(name = "AI 루틴", description = "AI 루틴 관련 API")
 @RestController
 @RequestMapping("/users/ai") // URL 경로를 명확하게 변경하는 것을 추천합니다.
 @RequiredArgsConstructor
@@ -24,6 +29,11 @@ public class AiRoutineController {
     private final AiRoutineService aiRoutineService;
     private final PlantRepository plantRepository;
 
+    @Operation(summary = "AI 루틴 생성", description = "사용자의 기분에 따라 AI가 루틴을 생성합니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "루틴 생성 성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
     @PostMapping("/generate-routine")
     public ResponseEntity<RoutineResponse> generateAiRoutine(@RequestBody Map<String, String> request) {
         String userMood = request.get("mood");
