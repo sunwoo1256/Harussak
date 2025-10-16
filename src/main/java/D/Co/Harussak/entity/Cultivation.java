@@ -26,6 +26,11 @@ public class Cultivation {
     @JoinColumn(name = "routineId", nullable = false)
     private Routine routine;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "cultivationObject", nullable = false)
+    private CultivationObject cultivationObject;
+
+
     private String emoji;
     private java.time.LocalDate startDate;
     private java.time.LocalDate endDate;
@@ -45,6 +50,10 @@ public class Cultivation {
         this.startDate = routine.getStartDate();
         this.endDate = routine.getEndDate();
         this.level = 1L;
+
+        CultivationObject defaultObject = new CultivationObject();
+        defaultObject.setId(1L);
+        this.cultivationObject = defaultObject;
     }
 }
 

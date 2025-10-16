@@ -23,6 +23,7 @@ public class CultivationResponseDto {
     private LocalDate endDate;
     private String diary;
     private Long level;
+    private String imageUrl;
 
     // Entity to DTO mapping constructor (이 생성자는 그대로 유지합니다)
     public CultivationResponseDto(Cultivation cultivation) {
@@ -37,5 +38,6 @@ public class CultivationResponseDto {
         this.endDate = cultivation.getEndDate();
         this.diary = cultivation.getDiary();
         this.level = cultivation.getLevel();
+        this.imageUrl = cultivation.getCultivationObject().getImageUrl();
     }
 }

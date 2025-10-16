@@ -20,12 +20,12 @@ public class CultivationController {
 
     private final CultivationService cultivationService;
 
-    @Operation(summary = "재배 시작", description = "사용자가 새로운 식물 재배를 시작합니다.")
-    @PostMapping
-    public ResponseEntity<CultivationResponseDto> startCultivation(@RequestBody CultivationRequestDto requestDto) {
-        CultivationResponseDto responseDto = cultivationService.createCultivation(requestDto);
-        return ResponseEntity.ok(responseDto);
-    }
+//    @Operation(summary = "재배 시작", description = "사용자가 새로운 식물 재배를 시작합니다.")
+//    @PostMapping
+//    public ResponseEntity<CultivationResponseDto> startCultivation(@RequestBody CultivationRequestDto requestDto) {
+//        CultivationResponseDto responseDto = cultivationService.createCultivation(requestDto);
+//        return ResponseEntity.ok(responseDto);
+//    }
 
     @Operation(summary = "사용자의 재배 목록 조회", description = "특정 사용자의 모든 재배 정보를 조회합니다.")
     @GetMapping("/user/{userId}")
