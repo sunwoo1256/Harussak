@@ -1,5 +1,7 @@
 package D.Co.Harussak.data;
 
+import D.Co.Harussak.cultivation.repository.CultivationObjectRepository;
+import D.Co.Harussak.entity.CultivationObject;
 import D.Co.Harussak.entity.Item;
 import D.Co.Harussak.entity.Item.Category;
 import D.Co.Harussak.entity.Plant;
@@ -7,18 +9,30 @@ import D.Co.Harussak.item.repository.ItemRepository;
 import D.Co.Harussak.plant.repository.PlantRepository;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
+import org.springframework.boot.ApplicationArguments;
+import org.springframework.boot.ApplicationRunner;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
-@RequiredArgsConstructor
 public class DataInitializer {
 
     private final PlantRepository plantRepository;
     private final ItemRepository itemRepository;
+    private final CultivationObjectRepository cultivationObjectRepository;
 
-    @PostConstruct
-    public void init() {
+    public DataInitializer(PlantRepository plantRepository, ItemRepository itemRepository,
+        CultivationObjectRepository cultivationObjectRepository) {
+        this.plantRepository = plantRepository;
+        this.itemRepository = itemRepository;
+        this.cultivationObjectRepository = cultivationObjectRepository;
+    }
+
+
+    @EventListener(ApplicationReadyEvent.class)
+    public void initData() {
         if (plantRepository.count() > 0) return; // 중복 방지
 
         List<Plant> plants = List.of(
@@ -57,6 +71,22 @@ public class DataInitializer {
 
         itemRepository.saveAll(items);
         System.out.println("✅ Item 데이터 초기화 완료!");
+
+        if (cultivationObjectRepository.count() > 0) return; // 중복 방지
+
+        List<CultivationObject> objects = List.of(
+            createObject("씨앗0", 0L, 0L),
+            createObject("새싹1", 1L, 1L),
+            createObject("새싹2", 2L, 1L),
+            createObject("줄기1", 1L, 2L),
+            createObject("줄기2", 2L, 2L),
+            createObject("봉오리1", 1L, 3L),
+            createObject("봉오리2", 2L, 3L)
+        );
+
+        cultivationObjectRepository.saveAll(objects);
+        System.out.println("✅ CultivationObject 초기 데이터 삽입 완료!");
+
     }
 
     private Plant createPlant(String name, String breed, String flowerMeaning, String month, String traits, String imageUrl) {
@@ -77,6 +107,15 @@ public class DataInitializer {
         item.setPrice(122L);
         item.setItemImage("/images/items/" + name + ".png"); // 이미지 URL 경로
         return item;
+    }
+
+    private CultivationObject createObject(String name, Long group, Long level) {
+        CultivationObject obj = new CultivationObject();
+        obj.setName(name);
+        obj.setGroupNumber(group);
+        obj.setLevel(level);
+        obj.setImageUrl("/images/cultivation/" + name + ".png");
+        return obj;
     }
 }
 
