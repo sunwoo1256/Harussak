@@ -2,8 +2,10 @@ package D.Co.Harussak.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Entity
 @Table(name = "Item")
 public class Item {
@@ -20,6 +22,6 @@ public class Item {
     private Long price;
 
     public enum Category {
-        테라리움, 장식, 업그레이드
+        장식, 하늘
     }
 }
