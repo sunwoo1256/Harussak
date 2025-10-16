@@ -11,7 +11,6 @@ public class Item {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Lob
     private String itemImage;
 
     @Enumerated(EnumType.STRING)
