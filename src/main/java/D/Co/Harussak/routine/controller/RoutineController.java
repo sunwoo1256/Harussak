@@ -2,6 +2,7 @@ package D.Co.Harussak.routine.controller;
 
 import D.Co.Harussak.entity.RoutineLog;
 import D.Co.Harussak.routine.dto.RoutineCreateRequest;
+import D.Co.Harussak.routine.dto.RoutineDeleteRequest;
 import D.Co.Harussak.routine.dto.RoutineDto;
 import D.Co.Harussak.routine.dto.RoutineResponse;
 import D.Co.Harussak.routine.service.RoutineService;
@@ -16,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -51,6 +53,25 @@ public class RoutineController {
         return ResponseEntity.ok(response);
     }
 
+    @Operation(summary = "루틴 생성 이전으로", description = "이전으로 돌아가고 루틴이 삭제됩니다.")
+    @ApiResponses({
+        @ApiResponse(responseCode = "204", description = "루틴 삭제 성공"),
+        @ApiResponse(responseCode = "401", description = "인증 실패"),
+        @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteRoutine(
+        @AuthenticationPrincipal CustomUserDetails userDetails,
+        @RequestBody RoutineDeleteRequest request
+    ) {
+        if (userDetails == null) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+        }
+        routineService.deleteRoutine(userDetails.getUsername(), request);
+        return ResponseEntity.noContent().build();
+    }
+
+
     @Operation(summary = "날짜별 루틴 조회", description = "특정 날짜의 루틴 목록을 조회합니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "조회 성공"),
@@ -61,6 +82,7 @@ public class RoutineController {
         @AuthenticationPrincipal CustomUserDetails user,
         @PathVariable LocalDate date
     ) {
+
         return ResponseEntity.ok(routineService.getRoutinesByDate(user.getUsername(), date));
     }
 

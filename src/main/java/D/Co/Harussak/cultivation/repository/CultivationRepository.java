@@ -10,4 +10,6 @@ import java.util.List;
 public interface CultivationRepository extends JpaRepository<Cultivation, Long> {
     // Find all cultivations for a specific user
     List<Cultivation> findByUserId(Long userId);
+
+    Cultivation findByRoutineId(Long routineId);
 }

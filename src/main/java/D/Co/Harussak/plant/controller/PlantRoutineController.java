@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Tag(name = "식물 루틴", description = "식물 루틴 관련 API")
+@Tag(name = "AI 루틴생성", description = "AI 루틴 관련 API")
 @RestController
 @RequestMapping("/users/plantRoutine")
 @RequiredArgsConstructor

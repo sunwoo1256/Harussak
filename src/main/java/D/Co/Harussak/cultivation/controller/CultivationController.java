@@ -4,6 +4,7 @@ import D.Co.Harussak.cultivation.dto.CultivationRequestDto;
 import D.Co.Harussak.cultivation.dto.CultivationResponseDto;
 import D.Co.Harussak.cultivation.dto.CultivationUpdateDto;
 import D.Co.Harussak.cultivation.service.CultivationService;
+import D.Co.Harussak.routine.service.RoutineService;
 import D.Co.Harussak.security.CustomUserDetails;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +22,7 @@ import java.util.List;
 public class CultivationController {
 
     private final CultivationService cultivationService;
+    private final RoutineService routineService;
 
 //    @Operation(summary = "재배 시작", description = "사용자가 새로운 식물 재배를 시작합니다.")
 //    @PostMapping
@@ -45,10 +47,10 @@ public class CultivationController {
 //        return ResponseEntity.ok(responseDto);
 //    }
 
-    @Operation(summary = "재배 중단", description = "진행 중인 재배를 삭제합니다.")
-    @DeleteMapping("/{cultivationId}")
-    public ResponseEntity<Void> stopCultivation(@PathVariable Long cultivationId) {
-        cultivationService.deleteCultivation(cultivationId);
-        return ResponseEntity.noContent().build(); // Success with no content in response
-    }
+//    @Operation(summary = "재배 중단", description = "진행 중인 재배를 삭제합니다.")
+//    @DeleteMapping("/{cultivationId}")
+//    public ResponseEntity<Void> stopCultivation(@PathVariable Long routineId) {
+//        routineService.deleteRoutine();
+//        return ResponseEntity.noContent().build(); // Success with no content in response
+//    }
 }

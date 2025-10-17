@@ -6,5 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface RoutineRepeatDayRepository extends JpaRepository<RoutineRepeatDay, Long> {
     List<RoutineRepeatDay> findByRoutineId(Long routineId);
+    void deleteByRoutineId(Long routineId);
 }
 

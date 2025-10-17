@@ -9,6 +9,7 @@ import D.Co.Harussak.entity.RoutineRepeatDay;
 import D.Co.Harussak.entity.User;
 import D.Co.Harussak.plant.repository.PlantRepository;
 import D.Co.Harussak.routine.dto.RoutineCreateRequest;
+import D.Co.Harussak.routine.dto.RoutineDeleteRequest;
 import D.Co.Harussak.routine.dto.RoutineDto;
 import D.Co.Harussak.routine.dto.RoutineResponse;
 import D.Co.Harussak.routine.repository.RoutineLogRepository;
@@ -105,6 +106,20 @@ public class RoutineService {
 
         log.toggle();
         routineLogRepository.save(log);
+    }
+
+    public void deleteRoutine(String username, RoutineDeleteRequest request) {
+        User user = userRepository.findByEmail(username)
+            .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
+        Routine routine = routineRepository.findById(request.getRoutineId())
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 루틴입니다."));
+
+        routineRepeatDayRepository.deleteByRoutineId(routine.getId());
+        routineLogRepository.deleteByRoutineId(routine.getId());
+        Cultivation cultivation = cultivationRepository.findByRoutineId(routine.getId());
+        cultivationRepository.delete(cultivation);
+        routineRepository.delete(routine);
     }
 }
 
