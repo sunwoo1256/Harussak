@@ -53,8 +53,11 @@ public class CultivationService {
 
     // Get all cultivations for a user
     @Transactional(readOnly = true)
-    public List<CultivationResponseDto> getCultivationsByUserId(Long userId) {
-        return cultivationRepository.findByUserId(userId).stream()
+    public List<CultivationResponseDto> getCultivationsByUserId(String username) {
+        User user = userRepository.findByEmail(username)
+            .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
+        return cultivationRepository.findByUserId(user.getId()).stream()
                 .map(CultivationResponseDto::new)
                 .collect(Collectors.toList());
     }
