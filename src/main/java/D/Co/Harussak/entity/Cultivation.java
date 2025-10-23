@@ -49,7 +49,7 @@ public class Cultivation {
         this.emoji = emoji;
         this.startDate = routine.getStartDate();
         this.endDate = routine.getEndDate();
-        this.level = 1L;
+        this.level = 0L;
 
         CultivationObject defaultObject = new CultivationObject();
         defaultObject.setId(1L);

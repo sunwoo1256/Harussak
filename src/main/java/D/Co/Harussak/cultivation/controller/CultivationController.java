@@ -22,14 +22,7 @@ import java.util.List;
 public class CultivationController {
 
     private final CultivationService cultivationService;
-    private final RoutineService routineService;
 
-//    @Operation(summary = "재배 시작", description = "사용자가 새로운 식물 재배를 시작합니다.")
-//    @PostMapping
-//    public ResponseEntity<CultivationResponseDto> startCultivation(@RequestBody CultivationRequestDto requestDto) {
-//        CultivationResponseDto responseDto = cultivationService.createCultivation(requestDto);
-//        return ResponseEntity.ok(responseDto);
-//    }
 
     @Operation(summary = "사용자의 재배 목록 조회", description = "특정 사용자의 모든 재배 정보를 조회합니다.")
     @GetMapping("/user")
@@ -38,19 +31,4 @@ public class CultivationController {
         return ResponseEntity.ok(responseDtos);
     }
 
-//    @Operation(summary = "재배 정보 수정", description = "재배일지(diary)나 이모지를 수정합니다.")
-//    @PatchMapping("/{cultivationId}")
-//    public ResponseEntity<CultivationResponseDto> updateCultivation(
-//        @PathVariable Long cultivationId,
-//        @RequestBody CultivationUpdateDto updateDto) {
-//        CultivationResponseDto responseDto = cultivationService.updateCultivation(cultivationId, updateDto);
-//        return ResponseEntity.ok(responseDto);
-//    }
-
-//    @Operation(summary = "재배 중단", description = "진행 중인 재배를 삭제합니다.")
-//    @DeleteMapping("/{cultivationId}")
-//    public ResponseEntity<Void> stopCultivation(@PathVariable Long routineId) {
-//        routineService.deleteRoutine();
-//        return ResponseEntity.noContent().build(); // Success with no content in response
-//    }
 }

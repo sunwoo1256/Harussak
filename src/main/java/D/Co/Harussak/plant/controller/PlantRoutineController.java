@@ -24,7 +24,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PlantRoutineController {
 
-    private final PlantRoutineService plantRoutineService;
     private final AiRoutineService aiRoutineService;
     private final PlantRepository plantRepository;
 
@@ -55,24 +54,4 @@ public class PlantRoutineController {
         return ResponseEntity.ok(response);
     }
 
-//    // --- 기존의 createRoutine, getRoutines 메서드는 그대로 유지합니다. ---
-//    @Operation(summary = "식물 루틴 생성", description = "새로운 식물 루틴을 생성합니다.")
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "루틴 생성 성공"),
-//            @ApiResponse(responseCode = "500", description = "서버 오류")
-//    })
-//    @PostMapping
-//    public PlantRoutineDto createRoutine(@RequestBody PlantRoutineDto dto) {
-//        return plantRoutineService.createRoutine(dto);
-//    }
-//
-//    @Operation(summary = "사용자 식물 루틴 조회", description = "특정 사용자의 모든 식물 루틴을 조회합니다.")
-//    @ApiResponses({
-//            @ApiResponse(responseCode = "200", description = "조회 성공"),
-//            @ApiResponse(responseCode = "500", description = "서버 오류")
-//    })
-//    @GetMapping("/{userId}")
-//    public List<PlantRoutineDto> getRoutines(@PathVariable Long userId) {
-//        return plantRoutineService.getUserRoutines(userId);
-//    }
 }
