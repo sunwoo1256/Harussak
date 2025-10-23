@@ -1,7 +1,11 @@
 package D.Co.Harussak.cultivation.dto;
 
 import D.Co.Harussak.entity.Cultivation;
+import D.Co.Harussak.entity.RoutineRepeatDay;
+import D.Co.Harussak.entity.RoutineRepeatDay.RepeatDay;
 import java.time.LocalDate;
+import java.util.Set;
+import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NoArgsConstructor; // NoArgsConstructor 임포트
 import lombok.Setter;
@@ -23,6 +27,8 @@ public class CultivationResponseDto {
     private LocalDate endDate;
     private String diary;
     private Long level;
+    private String breed;
+    private Set<String> routineRepeatDays;
     private String imageUrl;
 
     // Entity to DTO mapping constructor (이 생성자는 그대로 유지합니다)
@@ -38,6 +44,14 @@ public class CultivationResponseDto {
         this.endDate = cultivation.getEndDate();
         this.diary = cultivation.getDiary();
         this.level = cultivation.getLevel();
+        this.breed = cultivation.getPlant().getBreed();
         this.imageUrl = cultivation.getCultivationObject().getImageUrl();
+
+        // 👇 RoutineRepeatDay에서 요일 이름만 추출
+        this.routineRepeatDays = cultivation.getRoutine().getRepeatDays()
+            .stream()
+            .map(RoutineRepeatDay::getDay) // 예: "MONDAY", "WEDNESDAY" 등
+            .map(Enum::name)
+            .collect(Collectors.toSet());
     }
 }
