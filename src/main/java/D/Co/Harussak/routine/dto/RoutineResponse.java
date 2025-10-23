@@ -19,4 +19,5 @@ public class RoutineResponse {
     private LocalDate startDate;
     private LocalDate endDate;
     private Set<RoutineRepeatDay.RepeatDay> repeatDays;
+    private String breed;
 }

@@ -1,10 +1,15 @@
 package D.Co.Harussak.routine.service;
 
+import D.Co.Harussak.cultivation.repository.CultivationRepository;
+import D.Co.Harussak.entity.Cultivation;
+import D.Co.Harussak.entity.Plant;
 import D.Co.Harussak.entity.Routine;
 import D.Co.Harussak.entity.RoutineLog;
 import D.Co.Harussak.entity.RoutineRepeatDay;
 import D.Co.Harussak.entity.User;
+import D.Co.Harussak.plant.repository.PlantRepository;
 import D.Co.Harussak.routine.dto.RoutineCreateRequest;
+import D.Co.Harussak.routine.dto.RoutineDeleteRequest;
 import D.Co.Harussak.routine.dto.RoutineDto;
 import D.Co.Harussak.routine.dto.RoutineResponse;
 import D.Co.Harussak.routine.repository.RoutineLogRepository;
@@ -27,6 +32,8 @@ public class RoutineService {
     private final RoutineLogRepository routineLogRepository;
     private final RoutineRepeatDayRepository routineRepeatDayRepository;
     private final UserRepository userRepository;
+    private final PlantRepository plantRepository;
+    private final CultivationRepository cultivationRepository;
 
     public RoutineResponse createRoutine(String username, RoutineCreateRequest dto) {
         User user = userRepository.findByEmail(username)
@@ -59,8 +66,13 @@ public class RoutineService {
             }
             date = date.plusDays(1);
         }
+        Plant plant = plantRepository.findById(dto.getPlantId())
+            .orElseThrow(() -> new IllegalArgumentException("Plant not found with id: " + dto.getPlantId()));
 
-        return new RoutineResponse(routine.getId(), routine.getTitle(), routine.getStartDate(), routine.getEndDate(), dto.getRepeatDays());
+        Cultivation cultivation = new Cultivation(user, plant, routine, dto.getUserMood(), dto.getEmoji());
+        cultivationRepository.save(cultivation);
+
+        return new RoutineResponse(routine.getId(), routine.getTitle(), routine.getStartDate(), routine.getEndDate(), dto.getRepeatDays(), plant.getBreed());
     }
 
     public List<RoutineDto> getRoutinesByDate(String username, LocalDate date) {
@@ -94,6 +106,20 @@ public class RoutineService {
 
         log.toggle();
         routineLogRepository.save(log);
+    }
+
+    public void deleteRoutine(String username, RoutineDeleteRequest request) {
+        User user = userRepository.findByEmail(username)
+            .orElseThrow(() -> new IllegalArgumentException("유저를 찾을 수 없습니다."));
+
+        Routine routine = routineRepository.findById(request.getRoutineId())
+            .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 루틴입니다."));
+
+        routineRepeatDayRepository.deleteByRoutineId(routine.getId());
+        routineLogRepository.deleteByRoutineId(routine.getId());
+        Cultivation cultivation = cultivationRepository.findByRoutineId(routine.getId());
+        cultivationRepository.delete(cultivation);
+        routineRepository.delete(routine);
     }
 }
 
