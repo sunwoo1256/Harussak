@@ -36,18 +36,18 @@ public class AiRoutineService {
     private String modelName;
 
 
-
-
     /**
      * 메서드의 두 번째 파라미터 타입을 List<String>에서 List<FlowerInfo>로 수정합니다.
      */
-    public RoutineResponse generateRoutinesAndFlower(String userMood, List<FlowerInfo> flowerOptions) {
+    public RoutineResponse generateRoutinesAndFlower(String userMood,
+        List<FlowerInfo> flowerOptions) {
 
         try (VertexAI vertexAI = new VertexAI(projectId, location)) {
 
             // 꽃 정보를 "id:꽃이름(꽃말)" 형식으로 AI에 전달
             String flowerData = flowerOptions.stream()
-                .map(flower -> String.format("%d:%s(꽃말:%s)", flower.getId(), flower.getFlowerName(), flower.getFlowerMeaning()))
+                .map(flower -> String.format("%d:%s(꽃말:%s)", flower.getId(), flower.getFlowerName(),
+                    flower.getFlowerMeaning()))
                 .collect(Collectors.joining(", "));
 
             String systemMessage = String.format("""
@@ -55,6 +55,10 @@ public class AiRoutineService {
                 다음 지시사항을 반드시 따라야 합니다:
                 1. 사용자의 감정('%s')에 맞는 루틴 10개를 제안해야 합니다.
                 2. 각 루틴은 공백 포함 20자 이내로 작성하고, 이모지를 앞에 붙이세요.
+                [이모지 생성 규칙]
+                단일 유니코드 문자로 구성된 기본 이모지만 사용. (예: 📚, 😀, 😎, ❤️, 🐶, 🌸, 🔥, 👍, 💖)
+                성별, 인종, 직업 등이 결합된 복합 이모지(조합형/ZWJ 포함)는 절대 사용금지. (사용 금지 예: 🤷♀️, 👩💻, 👨👩👧👦, 👍🏽, 🚶‍♀️, 👨‍👩‍👧‍, 🏳️‍🌈👦, 👩‍💻, 🤝🏿, 👋🏻)
+                오래된 시스템에서도 깨지지 않는 호환성이 좋은 이모지 위주로 골라야합니다."
                 3. 제공된 꽃 목록과 꽃말을 분석하세요:
                    - 꽃 정보: [%s]
                 4. 가장 어울리는 꽃 한 개를 선택하고, 반드시 'flowerId\\nrecommendedFlower' 형식으로 출력하세요.
@@ -95,7 +99,6 @@ public class AiRoutineService {
                 throw new IllegalStateException("꽃 ID를 숫자로 변환할 수 없습니다: " + flowerLines[0], e);
             }
             String recommendedFlower = flowerLines[1].trim();
-
 
             return new RoutineResponse(routines, flowerId, recommendedFlower, userMood);
 
